@@ -3,10 +3,10 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .container {
   /* background: #14bdac; */
@@ -39,7 +39,8 @@ body {
   gap: 1rem;
 }
 
-.player-info-card-x, .player-info-card-y {
+.player-info-card-x,
+.player-info-card-o {
   border: 1px solid #aaa;
   border-radius: 8px;
   display: flex;
@@ -50,7 +51,7 @@ body {
 }
 
 .player-info-card-active {
-  border: 2px solid green
+  border: 2px solid green;
 }
 
 .player-x {
@@ -66,33 +67,33 @@ body {
 }
 
 .btn-mode {
-    padding: 0.5rem 1rem;
-    background: #000;
-    border: 1px solid #aaa;
-    border-radius: 0.2rem;
+  padding: 0.5rem 1rem;
+  background: #000;
+  border: 1px solid #aaa;
+  border-radius: 0.2rem;
 }
 
 .btn-mode-active {
-    background: #2492c9;
-    border: 1px solid #2492c9;
+  background: #2492c9;
+  border: 1px solid #2492c9;
 }
 
 .text-indication-winning {
-  color: #20d920
+  color: #20d920;
 }
 
-.game-board {  
+.game-board {
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows: repeat(3, 100px);
-  gap: 2px; 
+  gap: 2px;
   border-radius: 1rem;
   overflow: hidden;
-  background-color: #008080; 
+  background-color: #008080;
 }
 
 .cell {
-  background-color: #006666; 
+  background-color: #006666;
   border: none;
   width: 100px;
   display: flex;
@@ -108,40 +109,40 @@ body {
 }
 
 .cell:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 .cell.x {
-    color: #e74c3c;
+  color: #e74c3c;
 }
 
 .cell.o {
-    color: #f39c12;
+  color: #f39c12;
 }
 
 .cell.cell-dimmed {
   background: #175050;
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .cell.cell-highlighted {
   background: #09b3b3;
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .footer {
-    background: #000;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  background: #000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #footer-btn-restart {
-    color: #14bd95;
-    background: none;
-    border: none;
-    padding: 1rem 0;
-    font-size: 1rem;
-    width: 100%;
+  color: #14bd95;
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  font-size: 1rem;
+  width: 100%;
 }

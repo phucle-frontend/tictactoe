@@ -6,9 +6,10 @@ let gameBoard = [
 let currentPlayer = "X";
 let gameMode = "twoPlayer";
 let gameActive = true;
-let scores = { X: 0, O: 0 };
 let scoreX, scoreO;
 let currentPlayerDisplay;
+let scores = { X: 0, O: 0 }; 
+let aiScores = { You: 0, Ai: 0 }; 
 
 document.addEventListener("DOMContentLoaded", initGame);
 
@@ -59,7 +60,7 @@ function handleCellClick(index, cells) {
     handleUpdateUIGameStatus.updateCurrentPlayerDisplay(currentPlayerDisplay);
 
     if (gameMode === "ai" && currentPlayer === "O" && gameActive) {
-        setTimeout(() => makeAIMove(cells), 500);
+      setTimeout(() => makeAIMove(cells), 500);
     }
   }
 }
@@ -170,14 +171,14 @@ const handleRender = {
         .querySelector(".player-info-card-x")
         .classList.add("player-info-card-active");
       document
-        .querySelector(".player-info-card-y")
+        .querySelector(".player-info-card-o")
         .classList.remove("player-info-card-active");
     } else {
       document
         .querySelector(".player-info-card-x")
         .classList.remove("player-info-card-active");
       document
-        .querySelector(".player-info-card-y")
+        .querySelector(".player-info-card-o")
         .classList.add("player-info-card-active");
     }
   },
@@ -228,37 +229,46 @@ const handleRender = {
 };
 
 const handleUpdateUIGameStatus = {
-  handleWin(currentPlayerDisplay, cells) {
-    const winResult = handleTrackingGameStatus.checkWin();
-    if (!winResult) return;
+ handleWin(currentPlayerDisplay, cells) {
+  const winResult = handleTrackingGameStatus.checkWin();
+  if (!winResult) return;
 
-    gameActive = false;
+  gameActive = false;
 
-    const playerName = winResult.player === "X" ? "Player X" : "Player O";
-    currentPlayerDisplay.textContent = `${playerName} Wins!`;
-    currentPlayerDisplay.classList.add("text-indication-winning");
-
-    // update score
+  if (gameMode === "ai") {
+    const winner = winResult.player === "X" ? "You" : "Ai";
+    aiScores[winner]++;
+  } else {
     scores[winResult.player]++;
-    handleUpdateUIGameStatus.saveScores();
-    handleUpdateUIGameStatus.updateScoreDisplay(scores);
+  }
 
-    handleUpdateUIGameStatus.dimOtherCells(winResult, cells);
-  },
+  handleUpdateUIGameStatus.saveScores();
+  handleUpdateUIGameStatus.updateScoreDisplay(scores, aiScores);
 
-  handleDraw(currentPlayerDisplay) {
-    gameActive = false;
-    currentPlayerDisplay.textContent = "It's a Draw!";
-  },
+  const label = gameMode === "ai"
+    ? winResult.player === "X" ? "You" : "AI"
+    : winResult.player === "X" ? "Player X" : "Player O";
+
+  currentPlayerDisplay.textContent = `${label} Win${label === 'You' ? '' : 's'}!`;
+  currentPlayerDisplay.classList.add("text-indication-winning");
+
+  handleUpdateUIGameStatus.dimOtherCells(winResult, cells);
+},
+
+ handleDraw(currentPlayerDisplay) {
+  gameActive = false;
+  currentPlayerDisplay.textContent = "It's a Draw!";
+},
   loadScores() {
     const savedScores = localStorage.getItem("ticTacToeScores");
-    if (savedScores) {
-      scores = JSON.parse(savedScores);
-    }
+    const savedAiScores = localStorage.getItem("ticTacToeAiScores");
+    if (savedScores) scores = JSON.parse(savedScores);
+    if (savedAiScores) aiScores = JSON.parse(savedAiScores);
   },
 
   saveScores() {
     localStorage.setItem("ticTacToeScores", JSON.stringify(scores));
+    localStorage.setItem("ticTacToeAiScores", JSON.stringify(aiScores));
   },
 
   resetBoard(cells, currentPlayerDisplay) {
@@ -275,10 +285,19 @@ const handleUpdateUIGameStatus = {
     handleUpdateUIGameStatus.updateCurrentPlayerDisplay(currentPlayerDisplay);
   },
 
-  updateScoreDisplay(scores) {
+ updateScoreDisplay(scores, aiScores) {
+  if (gameMode === "ai") {
+    scoreX.textContent = aiScores.You;
+    scoreO.textContent = aiScores.Ai;
+    document.querySelector(".player-symbol-x").textContent = "You";
+    document.querySelector(".player-symbol-o").textContent = "AI";
+  } else {
     scoreX.textContent = scores.X;
     scoreO.textContent = scores.O;
-  },
+    document.querySelector(".player-symbol-x").textContent = "Player X";
+    document.querySelector(".player-symbol-o").textContent = "Player O";
+  }
+},
 
   dimOtherCells(winResult, cells) {
     cells.forEach((cell, index) => {
@@ -307,11 +326,14 @@ const handleUpdateUIGameStatus = {
       }
     });
   },
-  updateCurrentPlayerDisplay(currentPlayerDisplay) {
-    const playerName = currentPlayer === "X" ? "Player X" : "Player O";
-    currentPlayerDisplay.textContent = `${playerName}'s turn`;
-    handleRender.renderActivePlayerTurn(currentPlayer);
-  },
+updateCurrentPlayerDisplay(currentPlayerDisplay) {
+  const label = gameMode === "ai"
+    ? currentPlayer === "X" ? "Your" : "AI's"
+    : currentPlayer === "X" ? "Player X" : "Player O";
+
+  currentPlayerDisplay.textContent = `${label} turn`;
+  handleRender.renderActivePlayerTurn(currentPlayer);
+},
 };
 
 const handleGameConfig = {
@@ -324,13 +346,14 @@ const handleGameConfig = {
       .getElementById("aiMode")
       .classList.toggle("btn-mode-active", mode === "ai");
     handleGameConfig.restartGame(cells, currentPlayerDisplay);
+    handleUpdateUIGameStatus.updateScoreDisplay(scores, aiScores);
   },
   restartGame(cells, currentPlayerDisplay) {
     handleUpdateUIGameStatus.resetBoard(cells, currentPlayerDisplay);
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     handleUpdateUIGameStatus.updateCurrentPlayerDisplay(currentPlayerDisplay);
     if (gameMode === "ai" && currentPlayer === "O") {
-     setTimeout(() => makeAIMove(cells), 500);
+      setTimeout(() => makeAIMove(cells), 500);
     }
   },
 };
