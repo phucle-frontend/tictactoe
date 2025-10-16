@@ -1,0 +1,147 @@
+* {
+  color: #eee;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+  /* background: #14bdac; */
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #1f1f1f;
+  padding: 1rem 2rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.player-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-info-card-x, .player-info-card-y {
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  min-width: 120px;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.player-info-card-active {
+  border: 2px solid green
+}
+
+.player-x {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-o {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-mode {
+    padding: 0.5rem 1rem;
+    background: #000;
+    border: 1px solid #aaa;
+    border-radius: 0.2rem;
+}
+
+.btn-mode-active {
+    background: green;
+    border: 1px solid green;
+}
+
+.text-indication-winning {
+  color: #20d920
+}
+
+.game-board {  
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 2px; 
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #008080; 
+}
+
+.cell {
+  background-color: #006666; 
+  border: none;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  box-sizing: border-box;
+}
+
+.cell svg {
+  width: 60px;
+  height: 60px;
+}
+
+.cell:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.cell.x {
+    color: #e74c3c;
+}
+
+.cell.o {
+    color: #f39c12;
+}
+
+.cell.cell-dimmed {
+  background: #175050;
+    pointer-events: none;
+}
+
+.cell.cell-highlighted {
+  background: #09b3b3;
+    pointer-events: none;
+}
+
+.footer {
+    background: #000;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#footer-btn-restart {
+    color: #14bd95;
+    background: none;
+    border: none;
+    padding: 1rem 0;
+    font-size: 1rem;
+    width: 100%;
+}
