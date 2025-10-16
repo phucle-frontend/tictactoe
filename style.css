@@ -73,8 +73,8 @@ body {
 }
 
 .btn-mode-active {
-    background: green;
-    border: 1px solid green;
+    background: #2492c9;
+    border: 1px solid #2492c9;
 }
 
 .text-indication-winning {
